@@ -50,10 +50,11 @@ public class LoginPage_Activity extends AppCompatActivity {
                     try{
                         String result = new CustomTask().execute(loginid,loginpw,"login").get();
                         result=result.trim();
-                        Toast.makeText(LoginPage_Activity.this,result,Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(LoginPage_Activity.this,result,Toast.LENGTH_SHORT).show();
                         if(result.equals("true")){
                             Toast.makeText(LoginPage_Activity.this,"로그인",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginPage_Activity.this,MainActivity.class);
+                            intent.putExtra("userid",loginid);
                             startActivity(intent);
                             finish();
                         }else if(result.equals(false)){

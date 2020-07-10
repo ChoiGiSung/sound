@@ -20,7 +20,8 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        maven { url 'https://jitpack.io' }
+        //여기다 메이븐을 추가
     }
 }
 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+
+    <TextView
+        android:id="@+id/txt_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="영유아"
+        android:layout_above="@id/gallery"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"/>
+
+    <Gallery
+        android:id="@+id/gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spacing="20dp"
+        android:layout_centerVertical="true"
+        android:paddingBottom="150dp"
+        />
+    <Button
+        android:id="@+id/btn_choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gallery"
+        android:layout_centerHorizontal="true"
+        android:text="소리 듣기"/>
+    <CheckBox
+        android:id="@+id/ch_choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/btn_choice"
+        android:layout_alignBaseline="@id/btn_choice"
+        />
+    <Button
+        android:id="@+id/goTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="테스트하러가기"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

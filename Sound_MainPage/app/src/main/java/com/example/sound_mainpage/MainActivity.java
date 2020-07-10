@@ -2,14 +2,24 @@ package com.example.sound_mainpage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -20,44 +30,103 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+    ImageView topOne,topTwo,TopThree;
+    ImageButton menu_top;
+    ArrayList<String> Arl=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //바텀 네비
-        BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavi);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new ItemSelectListener());
 
+        final Intent intent = getIntent(); //로그인 창에서 오는 id 받기
+        final String userid=intent.getStringExtra("userid");
 
-    }
-    class ItemSelectListener implements BottomNavigationView.OnNavigationItemSelectedListener{
+        //서비스 실행 시키키
+        Intent service_intent=new Intent(
+                getApplicationContext(),//현재 제어권자
+                MyService.class//이동할 컴포넌트
+        );
+        service_intent.putExtra("userid",userid);
+        startService(service_intent);
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-            switch (menuItem.getItemId()){
-                case R.id.mode:
-                    Intent intent= new Intent(getApplicationContext(),Mode_Activity.class);
-                    startActivity(intent);
-                    break;
-                case R.id.home:
-                    Intent intent2= new Intent(getApplicationContext(),MainActivity.class);
-                    startActivity(intent2);
-                    break;
-                case R.id.user:
-                    Intent intent3= new Intent(getApplicationContext(),User_Activity.class);
-                    startActivity(intent3);
-                    break;
+        menu_top=findViewById(R.id.menu_top);
+        topOne=findViewById(R.id.topOne);
+        topTwo=findViewById(R.id.topTwo);
+        topOne.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent1 = new Intent(getApplicationContext(),Sound_useTime.class);
+                intent1.putStringArrayListExtra("usetime",Arl);
+                startActivity(intent1);
+                return false;
             }
+        });
+        topTwo.findViewById(R.id.topTwo);
+        topTwo.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent1 = new Intent(getApplicationContext(),Sound_collection.class);
+               intent1.putExtra("userid",userid);
+                startActivity(intent1);
+                return false;
+            }
+        });
+        TopThree=findViewById(R.id.TopThree);
+        TopThree.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent1 = new Intent(getApplicationContext(),sound_choice.class);
+                startActivity(intent1);
+                return false;
+            }
+        });
 
-            return true;
+        // 위에 메뉴 버튼 클릭 시 드로우 레이아웃 작동
+        menu_top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawer = findViewById(R.id.drawer);
+                drawer.openDrawer(Gravity.LEFT);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //로컬브로드 캐스트에서 값을 받기
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                mMessamgeReceiver,new IntentFilter("custom-event-name")
+        );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessamgeReceiver);
+    }
+
+    //리시버를 이용하여 서비스 값 받기
+    private BroadcastReceiver mMessamgeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Arl = intent.getStringArrayListExtra("usetime");
+            for(String a : Arl){
+
+                Log.i("어레이MainActivity",a);
+            }
         }
+    };
+
+
+
     }
 
 
 
-}

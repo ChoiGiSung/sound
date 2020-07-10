@@ -31,6 +31,8 @@ public class Loading_pageActivity extends AppCompatActivity {
             public void run() {
                 Intent intent= new Intent(getApplicationContext(),LoginPage_Activity.class);
                 startActivity(intent);
+
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 finish();
             }
         },2000);

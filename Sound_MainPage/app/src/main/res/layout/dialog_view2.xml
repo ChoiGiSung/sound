@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/text_dialog2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text=" \n \n \n들리는 소리의 맞춰 좌우 버튼을 눌러 주세요! \n 5초후에 10번의 소리가 시작 됩니다.\n \n \n
+        소리가 끝난후 결과를 눌러주세여"
+        android:textSize="20dp"
+        android:gravity="center"
+        />
+
+
+</FrameLayout>
