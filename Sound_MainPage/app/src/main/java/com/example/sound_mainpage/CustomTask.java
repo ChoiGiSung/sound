@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.Buffer;
 
 //jsp로 값 보내고 값 받기
 
@@ -19,7 +18,7 @@ public  class CustomTask extends AsyncTask<String,Void,String> {
     protected String doInBackground(String... strings) {
         try{
             String str;
-            URL url = new URL("http://14.55.238.20:8080/Sound_data/sound_data.jsp");//나의 jsp 페이지로
+            URL url = new URL("http://119.197.253.117:8080/Sound_data/sound_data.jsp");//나의 jsp 페이지로
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
             conn.setRequestMethod("POST");

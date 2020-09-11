@@ -12,13 +12,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.sound_mainpage.Api.ApiService;
+import com.example.sound_mainpage.Api.DataDto;
 
 import java.util.ArrayList;
 
 public class Sound_collection extends AppCompatActivity {
+    private ApiService apiService=new ApiService();
+
     ListView listView;
     MyListAdapter myListAdapter;
     ArrayList<list_item> list_itemArrayList;
@@ -46,7 +50,8 @@ public class Sound_collection extends AppCompatActivity {
 
         init();
         //어뎁터에 item의 정보를 넣어주면 어댑터에서 가공해서 리스트에 뿌려준다
-        returnDB();//db에서 값 받아서 리스트에 넣기
+        //returnDB();//db에서 값 받아서 리스트에 넣기
+        returnApi();
 
         myListAdapter=new MyListAdapter(Sound_collection.this,list_itemArrayList);
         listView.setAdapter(myListAdapter);
@@ -136,6 +141,33 @@ public class Sound_collection extends AppCompatActivity {
         }catch (Exception e){e.printStackTrace(); }
     }
 
+
+    //api 사용
+    private void returnApi(){
+        Intent intent= getIntent();
+        String userid=intent.getStringExtra("userid");
+        DataDto findData = apiService.getData(userid);
+        Log.i("리절트",userid);
+        try{
+            String result=findData.getData().get(0).getUser_seting();
+            Log.i("리절트",result);
+            if(!result.equals("0")){
+                String [] result_split =result.split("/"); //db값을 하나의 문자열로 받아서 자른다
+                try{
+                    for(String a: result_split){
+                        String[] result2= a.split(",");
+                        list_itemArrayList.add(new list_item(result2[0],Integer.parseInt(result2[1])));
+                    }
+                }catch (Exception e){
+
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void returnDB(){
         Intent intent= getIntent();
         String userid=intent.getStringExtra("userid");
@@ -160,7 +192,6 @@ public class Sound_collection extends AppCompatActivity {
         }catch (Exception e){
 
         }
-
         }
 
 

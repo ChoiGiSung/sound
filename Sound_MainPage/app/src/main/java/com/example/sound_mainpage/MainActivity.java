@@ -1,35 +1,21 @@
 package com.example.sound_mainpage;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -113,14 +99,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //리시버를 이용하여 서비스 값 받기
+    //바로 실행된다
     private BroadcastReceiver mMessamgeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Arl = intent.getStringArrayListExtra("usetime");
-            for(String a : Arl){
+            try{
+                Arl = intent.getStringArrayListExtra("usetime");
+                for(String a : Arl){
 
-                Log.i("어레이MainActivity",a);
+                    Log.i("어레이MainActivity",a);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
+
         }
     };
 

@@ -11,20 +11,20 @@
         android:roundIcon="@drawable/icondonkey"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Loading_pageActivity">
+        <activity android:name=".login.Loading_pageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginPage_Activity"/>
+        <activity android:name=".login.LoginPage_Activity"/>
         <activity android:name=".MainActivity"/>
         <activity android:name=".JoinActivity"/>
         <activity android:name=".Sound_collection"/>
-        <activity android:name=".ResultActivity"/>
+        <activity android:name=".SoundTest.ResultActivity"/>
         <activity android:name=".sound_choice"/>
-        <activity android:name=".SoundTest"/>
+        <activity android:name=".SoundTest.SoundTest"/>
 
         <service android:name=".MyService"/>
         <activity android:name=".Sound_useTime"/>

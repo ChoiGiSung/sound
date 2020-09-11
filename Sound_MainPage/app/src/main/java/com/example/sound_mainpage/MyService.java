@@ -14,10 +14,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.sound_mainpage.Api.ApiService;
+import com.example.sound_mainpage.Api.DataDto;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
 
 public class MyService extends Service {
@@ -26,6 +28,8 @@ public class MyService extends Service {
     String startTime_s,EndTime_s=null;
     ArrayList<String> Arl =new ArrayList<>();
     String userid=null;
+
+    private ApiService apiService=new ApiService();
 
 
     private  static IntentFilter intentFilter=new IntentFilter(Intent.ACTION_HEADSET_PLUG);
@@ -43,7 +47,7 @@ public class MyService extends Service {
         //서비스에서 가장 먼저 호출됨 (최초 한번만)
         super.onCreate();
 
-
+        returnApi();
         Log.d("Test","서비스의 oncreate");
 
         broadcastReceiver= new BroadcastReceiver() {
@@ -67,9 +71,6 @@ public class MyService extends Service {
                     //연결 끊은 시각
                     EndTime =SystemClock.elapsedRealtime();
                    EndTime_s =new SimpleDateFormat("ddHHmm").format(new Date()); //날짜계산을 위한거
-                    //날짜를 숫자로 바꿔서 시간 계산
-                   //        int StartTime_int=Integer.parseInt(startTime);
-                  //          int EndTime_int = Integer.parseInt(EndTime);
                     count +=(int) ((EndTime-startTime)/1000/60)%60;
                     Toast.makeText(getApplicationContext(),count+"분",Toast.LENGTH_SHORT).show();
 
@@ -85,8 +86,8 @@ public class MyService extends Service {
                 }
             }
         };
-        registerReceiver(broadcastReceiver,intentFilter);
 
+        registerReceiver(broadcastReceiver,intentFilter);
         //전까지 헤드폰 연결 비연결
 
     }
@@ -96,19 +97,19 @@ public class MyService extends Service {
 
         //db로 보내기
         String result=null;
-        Log.i("제발",userid+Arl.get(0)+Arl.size());
+       // Log.i("제발",userid+Arl.get(0)+Arl.size());
         try {
             if (Arl.size() == 7) {
                 result = new CustomTask().execute(userid,Arl.get(0),Arl.get(1),Arl.get(2),
                         Arl.get(3),Arl.get(4),Arl.get(5),Arl.get(6),"usetime").get();
-                Log.i("갔냐?","ㅇ");
+          //      Log.i("갔냐?","ㅇ");
             }
         }catch (Exception e){
             e.printStackTrace();
         }
         result=result.trim();
 
-        Log.i("왔다",result);
+       // Log.i("왔다",result);
       //  Toast.makeText(getApplication(),result,Toast.LENGTH_SHORT).show();
         if(result.equals("true")){
             Toast.makeText(getApplication(),"값 넣기 성공",Toast.LENGTH_SHORT).show();
@@ -131,8 +132,8 @@ public class MyService extends Service {
         try{//백그라운드에서 앱을꺼버리면 userid를 받을 수 없어서 오류가 남
 
             this.userid = intent.getStringExtra("userid");
-            returnDB(); //값 얻어오기 이게 oncreate에서 되면 좋겠지만 onstart에서만 id값을 얻을 수 있다 하지만 start에 올려놔서 죽이지 못하게 해놨다
-
+            //returnDB(); //값 얻어오기 이게 oncreate에서 되면 좋겠지만 onstart에서만 id값을 얻을 수 있다 하지만 start에 올려놔서 죽이지 못하게 해놨다
+            returnApi();
         }catch (Exception e){
 
         }
@@ -250,6 +251,31 @@ public class MyService extends Service {
 
         Log.i("왔다 성공",result);
         //Toast.makeText(getApplication(),result,Toast.LENGTH_SHORT).show();
+    }
+
+    //db에서 day값 받아서 arry에 넣기
+    private void returnApi(){
+        Arl.clear(); //startcomm은 자주 호출 되므로
+        Log.i("서비스영역","초기화");
+        try{
+
+            //db로 보내기
+            String result=null;
+            DataDto dataDto=apiService.getData(userid);
+            Log.i("서비스영역",userid);
+            DataDto.UserDto userDto=dataDto.getData().get(0);
+            Log.i("서비스영역",userDto.getDay_1());
+            Arl.add(userDto.getDay_1());
+            Arl.add(userDto.getDay_2());
+            Arl.add(userDto.getDay_3());
+            Arl.add(userDto.getDay_4());
+            Arl.add(userDto.getDay_5());
+            Arl.add(userDto.getDay_6());
+            Arl.add(userDto.getDay_7());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 

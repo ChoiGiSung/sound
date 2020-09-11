@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.sound_mainpage.SoundTest.SoundTest;
+
 public class sound_choice extends AppCompatActivity {
 
     SoundPool soundPool;
@@ -138,7 +140,7 @@ public class sound_choice extends AppCompatActivity {
             });
         }
         public void goSound(int position){
-            Intent intent=new Intent(getApplicationContext(),SoundTest.class);
+            Intent intent=new Intent(getApplicationContext(), SoundTest.class);
             int i=position;
             if(c1.isChecked()){
                 intent.putExtra("chec",i);
