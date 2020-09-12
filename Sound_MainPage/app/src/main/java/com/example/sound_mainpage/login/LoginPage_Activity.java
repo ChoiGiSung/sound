@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sound_mainpage.Api.ApiService;
 import com.example.sound_mainpage.Api.DataDto;
-import com.example.sound_mainpage.JoinActivity;
 import com.example.sound_mainpage.MainActivity;
 import com.example.sound_mainpage.R;
 
@@ -22,9 +21,6 @@ public class LoginPage_Activity extends AppCompatActivity {
     EditText edit_id,edit_pw;
     Button btn_login;
     TextView join_user;
-
-
-    private ApiService apiService=new ApiService();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,10 +44,15 @@ public class LoginPage_Activity extends AppCompatActivity {
                     String loginid=edit_id.getText().toString();
                     String loginpw=edit_pw.getText().toString();
                     try{
-                        DataDto findUser = apiService.login(loginid, loginpw);
-                        //DataDto findUser =apiService.execute(loginid,loginpw).get();
-
-                        Log.i("로그인",findUser.getData().get(0).getUser_id());
+                       // DataDto findUser = apiService.login(loginid, loginpw);
+                        DataDto findUser=null;
+                        if (!loginid.equals("") && !loginpw.equals("")){
+                            findUser =new ApiService().execute("login",loginid,loginpw).get(); //api통신
+                        }else {
+                            Toast.makeText(LoginPage_Activity.this,"아이디 또는 비밀번호를 확인",Toast.LENGTH_LONG).show();
+                        }
+                        //Log.i("로그인",findUser.getData().get(0).getUser_id());
+                         Log.i("로그인","ㅇㅏ디");
                         if(findUser!=null){
                             Toast.makeText(LoginPage_Activity.this,"로그인",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginPage_Activity.this, MainActivity.class);

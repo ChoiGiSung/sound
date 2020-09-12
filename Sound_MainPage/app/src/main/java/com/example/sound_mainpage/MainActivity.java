@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.sound_mainpage.SoundChoice.sound_choice;
+import com.example.sound_mainpage.SoundCollection.Sound_collection;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         topTwo.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Intent intent1 = new Intent(getApplicationContext(),Sound_collection.class);
+                Intent intent1 = new Intent(getApplicationContext(), Sound_collection.class);
                intent1.putExtra("userid",userid);
                 startActivity(intent1);
                 return false;
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         TopThree.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Intent intent1 = new Intent(getApplicationContext(),sound_choice.class);
+                Intent intent1 = new Intent(getApplicationContext(), sound_choice.class);
                 startActivity(intent1);
                 return false;
             }

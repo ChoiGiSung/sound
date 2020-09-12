@@ -29,7 +29,6 @@ public class MyService extends Service {
     ArrayList<String> Arl =new ArrayList<>();
     String userid=null;
 
-    private ApiService apiService=new ApiService();
 
 
     private  static IntentFilter intentFilter=new IntentFilter(Intent.ACTION_HEADSET_PLUG);
@@ -80,7 +79,8 @@ public class MyService extends Service {
                             Log.i("어레이",a);
                         }
 
-                    sendMsgToActivity(); //엑티비티로 메시지 보내기
+                    //sendMsgToActivity(); //엑티비티로 메시지 보내기
+                    sendApiupdateDay();
 
                     startTime=0;//이래야 평소에는 endtime을 저장하지 않는다
                 }
@@ -92,6 +92,14 @@ public class MyService extends Service {
 
     }
 
+    private void sendApiupdateDay(){
+        String result=null;
+        // Log.i("제발",userid+Arl.get(0)+Arl.size());
+        if (Arl.size() == 7) {
+            new ApiService().execute("updateDay", userid, Arl.get(0), Arl.get(1), Arl.get(2),
+                    Arl.get(3), Arl.get(4), Arl.get(5), Arl.get(6), "usetime");
+        }
+        }
     private void sendMsgToActivity(){
 
 
@@ -221,37 +229,9 @@ public class MyService extends Service {
                 String endTime= day_end_v+String.format("%04d",Integer.parseInt(day_end.substring(2,6)));
                 Arl.add(endTime); //새로운 날짜와 시간 넣기
             }
-
-
-
         }
-
-
-
     }
 
-    //db에서 day값 받아서 arry에 넣기
-    private void returnDB(){
-        Arl.clear(); //startcomm은 자주 호출 되므로
-        //db로 보내기
-        String result=null;
-        try {
-                result = new CustomTask().execute(userid,"getday").get();
-                Log.i("갔냐day?","ㅇ");
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        result=result.trim();
-
-        String [] result_split =result.split(","); //db값을 하나의 문자열로 받아서 자른다
-        for(String a: result_split){
-            Arl.add(a);//나중에는 잘라서 넣자
-        }
-
-        Log.i("왔다 성공",result);
-        //Toast.makeText(getApplication(),result,Toast.LENGTH_SHORT).show();
-    }
 
     //db에서 day값 받아서 arry에 넣기
     private void returnApi(){
@@ -261,8 +241,8 @@ public class MyService extends Service {
 
             //db로 보내기
             String result=null;
-            DataDto dataDto=apiService.getData(userid);
             Log.i("서비스영역",userid);
+            DataDto dataDto=new ApiService().execute("getUserData",userid).get(); //api로 값 받기
             DataDto.UserDto userDto=dataDto.getData().get(0);
             Log.i("서비스영역",userDto.getDay_1());
             Arl.add(userDto.getDay_1());

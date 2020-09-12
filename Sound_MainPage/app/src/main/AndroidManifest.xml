@@ -20,10 +20,10 @@
         </activity>
         <activity android:name=".login.LoginPage_Activity"/>
         <activity android:name=".MainActivity"/>
-        <activity android:name=".JoinActivity"/>
-        <activity android:name=".Sound_collection"/>
+        <activity android:name=".login.JoinActivity"/>
+        <activity android:name=".SoundCollection.Sound_collection"/>
         <activity android:name=".SoundTest.ResultActivity"/>
-        <activity android:name=".sound_choice"/>
+        <activity android:name=".SoundChoice.sound_choice"/>
         <activity android:name=".SoundTest.SoundTest"/>
 
         <service android:name=".MyService"/>

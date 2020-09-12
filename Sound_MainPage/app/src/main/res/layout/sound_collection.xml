@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Sound_collection"
+    tools:context=".SoundCollection.Sound_collection"
     android:orientation="vertical"
     android:weightSum="10">
 
