@@ -16,8 +16,7 @@ import android.widget.SeekBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sound_mainpage.Api.ApiService;
-import com.example.sound_mainpage.Api.DataDto;
-import com.example.sound_mainpage.CustomTask;
+import com.example.sound_mainpage.Api.ApiDto.DataDto;
 import com.example.sound_mainpage.R;
 
 import java.util.ArrayList;
@@ -181,35 +180,35 @@ public class Sound_collection extends AppCompatActivity {
         }
     }
 
-    private void returnDB(){
-        Intent intent= getIntent();
-        String userid=intent.getStringExtra("userid");
-        //db로 보내기
-        String result=null;
-        try {
-            result = new CustomTask().execute(userid,"getseting","","","").get();
-           // Log.i("갔냐dgetsetin?","ㅇ");
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        result=result.trim();
-
-        if(!result.equals("0")){
-            String [] result_split =result.split("/"); //db값을 하나의 문자열로 받아서 자른다
-        try{
-            for(String a: result_split){
-                String[] result2= a.split(",");
-                    list_itemArrayList.add(new list_item(result2[0],Integer.parseInt(result2[1])));
-            }
-        }catch (Exception e){
-
-        }
-        }
-
-
-      //  Log.i("왔다 성공",result);
-       // Toast.makeText(getApplication(),result,Toast.LENGTH_SHORT).show();
-    }
+//    private void returnDB(){
+//        Intent intent= getIntent();
+//        String userid=intent.getStringExtra("userid");
+//        //db로 보내기
+//        String result=null;
+//        try {
+//            result = new CustomTask().execute(userid,"getseting","","","").get();
+//           // Log.i("갔냐dgetsetin?","ㅇ");
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        result=result.trim();
+//
+//        if(!result.equals("0")){
+//            String [] result_split =result.split("/"); //db값을 하나의 문자열로 받아서 자른다
+//        try{
+//            for(String a: result_split){
+//                String[] result2= a.split(",");
+//                    list_itemArrayList.add(new list_item(result2[0],Integer.parseInt(result2[1])));
+//            }
+//        }catch (Exception e){
+//
+//        }
+//        }
+//
+//
+//      //  Log.i("왔다 성공",result);
+//       // Toast.makeText(getApplication(),result,Toast.LENGTH_SHORT).show();
+//    }
 }
 

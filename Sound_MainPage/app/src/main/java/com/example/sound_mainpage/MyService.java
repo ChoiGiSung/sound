@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.sound_mainpage.Api.ApiService;
-import com.example.sound_mainpage.Api.DataDto;
+import com.example.sound_mainpage.Api.ApiDto.DataDto;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -100,34 +100,34 @@ public class MyService extends Service {
                     Arl.get(3), Arl.get(4), Arl.get(5), Arl.get(6), "usetime");
         }
         }
-    private void sendMsgToActivity(){
-
-
-        //db로 보내기
-        String result=null;
-       // Log.i("제발",userid+Arl.get(0)+Arl.size());
-        try {
-            if (Arl.size() == 7) {
-                result = new CustomTask().execute(userid,Arl.get(0),Arl.get(1),Arl.get(2),
-                        Arl.get(3),Arl.get(4),Arl.get(5),Arl.get(6),"usetime").get();
-          //      Log.i("갔냐?","ㅇ");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        result=result.trim();
-
-       // Log.i("왔다",result);
-      //  Toast.makeText(getApplication(),result,Toast.LENGTH_SHORT).show();
-        if(result.equals("true")){
-            Toast.makeText(getApplication(),"값 넣기 성공",Toast.LENGTH_SHORT).show();
-        }else if(result.equals(false)){
-            Toast.makeText(getApplication(),"아이디 또는 비밀번호가 틀렸음",Toast.LENGTH_SHORT).show();
-        }else if(result.equals("noId")){
-            Toast.makeText(getApplication(),"존재하지 않는 아이디",Toast.LENGTH_SHORT).show();
-        }
-      //  Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
-      }
+//    private void sendMsgToActivity(){
+//
+//
+//        //db로 보내기
+//        String result=null;
+//       // Log.i("제발",userid+Arl.get(0)+Arl.size());
+//        try {
+//            if (Arl.size() == 7) {
+//                result = new CustomTask().execute(userid,Arl.get(0),Arl.get(1),Arl.get(2),
+//                        Arl.get(3),Arl.get(4),Arl.get(5),Arl.get(6),"usetime").get();
+//          //      Log.i("갔냐?","ㅇ");
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        result=result.trim();
+//
+//       // Log.i("왔다",result);
+//      //  Toast.makeText(getApplication(),result,Toast.LENGTH_SHORT).show();
+//        if(result.equals("true")){
+//            Toast.makeText(getApplication(),"값 넣기 성공",Toast.LENGTH_SHORT).show();
+//        }else if(result.equals(false)){
+//            Toast.makeText(getApplication(),"아이디 또는 비밀번호가 틀렸음",Toast.LENGTH_SHORT).show();
+//        }else if(result.equals("noId")){
+//            Toast.makeText(getApplication(),"존재하지 않는 아이디",Toast.LENGTH_SHORT).show();
+//        }
+//      //  Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+//      }
 
 
     @Override

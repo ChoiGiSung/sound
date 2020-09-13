@@ -3,13 +3,17 @@ package com.example.sound_mainpage.Api;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.sound_mainpage.Api.ApiDto.DataDto;
+import com.example.sound_mainpage.Api.ApiDto.ResultDto;
+import com.example.sound_mainpage.Api.ApiDto.Setting;
+
 import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public  class ApiService  extends AsyncTask<String,Void,DataDto> {
+public  class ApiService  extends AsyncTask<String,Void, DataDto> {
 
     private static  String url="http://14.55.237.125:8080";
     private static MyApi myApi;
@@ -41,9 +45,14 @@ public  class ApiService  extends AsyncTask<String,Void,DataDto> {
             setting.setSetting(strings[2]);
             updateSetting(strings[1],setting);
             Log.i("api영역세팅업데이트",strings[1]+strings[2]);
+        }else if(strings[0].equals("join")){
+            String join = join(strings[1], strings[2]);
 
-
+            DataDto joinDto=new DataDto();
+            joinDto.setJoinresult(join);
+            return joinDto;
         }
+
         return dataDto;
     }
 
@@ -58,6 +67,18 @@ public  class ApiService  extends AsyncTask<String,Void,DataDto> {
         myApi = retrofit.create(MyApi.class);
         Log.i("api영역","초기화 호출");
 
+    }
+
+    //회원가입
+    public static String join(String user_id,String user_pwd){
+        initApi(url);
+        ResultDto result = null;
+        Call<ResultDto> getCall=myApi.join(user_id,user_pwd);
+        try {
+            result = getCall.execute().body();
+            Log.i("api횐가입",result.getResult());
+        } catch (IOException e) {e.printStackTrace(); }
+        return result.getResult();
     }
 
     //setting 업데이트
