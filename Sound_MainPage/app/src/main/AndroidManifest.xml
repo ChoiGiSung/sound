@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sound_mainpage">
+
+
     <!--인터넷 사용 퍼미션-->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!--포그라운드 권한 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
+    <!--http이용을 위한 usesCleartextTraffic 설정-->
     <application
+        android:usesCleartextTraffic="true"
+
         android:allowBackup="true"
         android:icon="@mipmap/dongkey_round"
         android:label="당나귀"

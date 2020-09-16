@@ -37,4 +37,6 @@ public class Loading_pageActivity extends AppCompatActivity {
             }
         },2000);
     }
+
+
 }

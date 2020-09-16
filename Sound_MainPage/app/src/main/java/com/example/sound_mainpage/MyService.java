@@ -1,21 +1,27 @@
 package com.example.sound_mainpage;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.example.sound_mainpage.Api.ApiService;
 import com.example.sound_mainpage.Api.ApiDto.DataDto;
+import com.example.sound_mainpage.Api.ApiService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,15 +52,20 @@ public class MyService extends Service {
         //서비스에서 가장 먼저 호출됨 (최초 한번만)
         super.onCreate();
 
-        returnApi();
-        Log.d("Test","서비스의 oncreate");
+        Log.i("Test온크리에디읕","서비스의 oncreate");
+        try{
+            returnApi(); //onStartCommand가 먼저 실행되기 때문에 예외처리해줌
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Log.i("Test온크리에디읕","서비스의 oncreate");
 
         broadcastReceiver= new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 
                 boolean isEarphoneOn=(intent.getIntExtra("state",0)>0)?true:false;
-
+                Log.i("Test온크리에디읕","서비스의 oncreate");
                 if(isEarphoneOn){
                     Log.e("이어폰log","Earphone is plugged");
                     Toast.makeText(getApplicationContext(),"연결",Toast.LENGTH_SHORT).show();
@@ -100,46 +111,52 @@ public class MyService extends Service {
                     Arl.get(3), Arl.get(4), Arl.get(5), Arl.get(6), "usetime");
         }
         }
-//    private void sendMsgToActivity(){
-//
-//
-//        //db로 보내기
-//        String result=null;
-//       // Log.i("제발",userid+Arl.get(0)+Arl.size());
-//        try {
-//            if (Arl.size() == 7) {
-//                result = new CustomTask().execute(userid,Arl.get(0),Arl.get(1),Arl.get(2),
-//                        Arl.get(3),Arl.get(4),Arl.get(5),Arl.get(6),"usetime").get();
-//          //      Log.i("갔냐?","ㅇ");
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        result=result.trim();
-//
-//       // Log.i("왔다",result);
-//      //  Toast.makeText(getApplication(),result,Toast.LENGTH_SHORT).show();
-//        if(result.equals("true")){
-//            Toast.makeText(getApplication(),"값 넣기 성공",Toast.LENGTH_SHORT).show();
-//        }else if(result.equals(false)){
-//            Toast.makeText(getApplication(),"아이디 또는 비밀번호가 틀렸음",Toast.LENGTH_SHORT).show();
-//        }else if(result.equals("noId")){
-//            Toast.makeText(getApplication(),"존재하지 않는 아이디",Toast.LENGTH_SHORT).show();
-//        }
-//      //  Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
-//      }
 
 
+        //백그라운드에서 동작하기 위해  startForeground(2, notification);을 썻었는데
+        //오레오 버전 이후 부터는 채널 값을 만들어서 줘야 백그라운드에서 실행이 가능하다
+        //그래서 밑에 채널을 만들어주는 함수를 작성
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void startMyOwnForeground(){
+        String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
+        String channelName = "My Background Service";
+        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+        chan.setLightColor(Color.BLUE);
+        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        assert manager != null;
+        manager.createNotificationChannel(chan);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        Notification notification = notificationBuilder.setOngoing(true)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("App is running in background")
+                .setPriority(NotificationManager.IMPORTANCE_MIN)
+                .setCategory(Notification.CATEGORY_SERVICE)
+                .build();
+        startForeground(2, notification);
+    }
+
+    //서비스가 호출 될 떄마다 실행
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //서비스가 호출 될 떄마다 실행
-        Log.d("Test","서비스의 onStartCommand");
+        try{
 
-        startForeground(1, new Notification()); //강제 종료로도 죽이지 못하게
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                startMyOwnForeground(); //오레오 버전 이상은 채널 값을 만들어서 넣어줘야함
+            }
+            else{
+                startForeground(1, new Notification()); //오레오 버전 이하는 원래 하던데로 백그라운드 실행이 가능함
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         try{//백그라운드에서 앱을꺼버리면 userid를 받을 수 없어서 오류가 남
 
             this.userid = intent.getStringExtra("userid");
+            Log.i("Test 유저아이디",userid);
             //returnDB(); //값 얻어오기 이게 oncreate에서 되면 좋겠지만 onstart에서만 id값을 얻을 수 있다 하지만 start에 올려놔서 죽이지 못하게 해놨다
             returnApi();
         }catch (Exception e){
@@ -238,6 +255,7 @@ public class MyService extends Service {
         Arl.clear(); //startcomm은 자주 호출 되므로
         Log.i("서비스영역","초기화");
         try{
+
 
             //db로 보내기
             String result=null;

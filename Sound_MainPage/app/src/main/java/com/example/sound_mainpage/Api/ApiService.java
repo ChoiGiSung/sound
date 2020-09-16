@@ -59,10 +59,14 @@ public  class ApiService  extends AsyncTask<String,Void, DataDto> {
 
     public static void initApi(String url){
         //retorfit 객체를 생성하고 이 객체를 이용해서 api service를(이 클래스 아님) create해 준다
+//        NoSafe noSafe=new NoSafe();
+//        noSafe.postHttps(url,1000,1000);
         Retrofit retrofit =new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+
 
         myApi = retrofit.create(MyApi.class);
         Log.i("api영역","초기화 호출");

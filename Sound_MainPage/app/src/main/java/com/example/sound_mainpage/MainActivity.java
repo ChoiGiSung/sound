@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent intent = getIntent(); //로그인 창에서 오는 id 받기
         final String userid=intent.getStringExtra("userid");
 
+        Log.i("메인 아이디",userid);
         //서비스 실행 시키키
         Intent service_intent=new Intent(
                 getApplicationContext(),//현재 제어권자
@@ -119,7 +120,12 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
+//    @Override
+//    public void startActivityForResult(Intent intent, int requestCode) {
+//       Log.i("스타트엑티비티포 리절트","ㅇㅇ");
+//        intent= new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"));
+//        super.startActivityForResult(intent, requestCode);
+//    }
 
     }
 

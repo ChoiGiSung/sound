@@ -12,8 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.sound_mainpage.Api.ApiService;
 import com.example.sound_mainpage.Api.ApiDto.DataDto;
+import com.example.sound_mainpage.Api.ApiService;
 import com.example.sound_mainpage.MainActivity;
 import com.example.sound_mainpage.R;
 
@@ -113,7 +113,5 @@ public class LoginPage_Activity extends AppCompatActivity {
 //            }
 //        }
 //    };
-
-
 
 }
