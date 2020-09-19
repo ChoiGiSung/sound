@@ -30,6 +30,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SuperUser superUser=SuperUser.getSuperUser();
+        Log.i("수퍼유조 메인",superUser.getUser_id());
+
+
+
+
+
         //바텀 네비
 
         final Intent intent = getIntent(); //로그인 창에서 오는 id 받기

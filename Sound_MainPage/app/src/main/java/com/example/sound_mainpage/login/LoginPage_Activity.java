@@ -16,6 +16,7 @@ import com.example.sound_mainpage.Api.ApiDto.DataDto;
 import com.example.sound_mainpage.Api.ApiService;
 import com.example.sound_mainpage.MainActivity;
 import com.example.sound_mainpage.R;
+import com.example.sound_mainpage.SuperUser;
 
 public class LoginPage_Activity extends AppCompatActivity {
     EditText edit_id,edit_pw;
@@ -57,6 +58,11 @@ public class LoginPage_Activity extends AppCompatActivity {
                             Toast.makeText(LoginPage_Activity.this,"로그인",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginPage_Activity.this, MainActivity.class);
                             intent.putExtra("userid",loginid);
+
+                            SuperUser superUser=SuperUser.getSuperUser();
+                            superUser.setUser_id(loginid);
+                            Log.i("수퍼유조",superUser.getUser_id());
+
                             startActivity(intent);
                             finish();
                         }else if(findUser==null){

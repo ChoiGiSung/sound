@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.sound_mainpage.Api.ApiService;
 import com.example.sound_mainpage.Api.ApiDto.DataDto;
 import com.example.sound_mainpage.R;
+import com.example.sound_mainpage.SuperUser;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,10 @@ public class Sound_collection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sound_collection);
+
+        SuperUser superUser=SuperUser.getSuperUser();
+        Log.i("수퍼유조 컬렉션",superUser.getUser_id());
+
 
         init();
         //어뎁터에 item의 정보를 넣어주면 어댑터에서 가공해서 리스트에 뿌려준다
