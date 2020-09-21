@@ -11,8 +11,9 @@
        >
         <ImageView
             android:id="@+id/result_img"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:padding="90dp"/>
         <TextView
             android:id="@+id/result_txt"
@@ -20,6 +21,22 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textSize="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:text="눈에 좋은 음식\n"/>
+        <TextView
+            android:id="@+id/food"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="눈에 좋은 음식으로는 비타민A가 풍부한 당근, 베리류, 시금치, 생선 ,계란, 결명자 차등이 있다.\n"/>
+
         <Button
             android:id="@+id/goHome"
             android:layout_width="wrap_content"

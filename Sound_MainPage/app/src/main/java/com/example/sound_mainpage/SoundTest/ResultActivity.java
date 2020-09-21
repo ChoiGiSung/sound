@@ -16,7 +16,7 @@ import com.example.sound_mainpage.R;
 import com.example.sound_mainpage.SuperUser;
 
 public class ResultActivity extends AppCompatActivity {
-    TextView result_txt;
+    TextView result_txt,eyeUrl;
     ImageView result_img;
     Button goHomeBtn;
     @Override
@@ -27,35 +27,29 @@ public class ResultActivity extends AppCompatActivity {
         result_img = findViewById(R.id.result_img);
         goHomeBtn=findViewById(R.id.goHome);
 
+
+
         Intent intent=getIntent();
         int result=intent.getIntExtra("answer",0);
 
 
+
         if(result>=10){
-            result_img.setImageResource(R.mipmap.smile);
-            result_txt.setText(String.valueOf(result)+"개 맞힌 당신 \n"+"훌륭합니다"+
-                    "당신을 위한 귀 건강 음식! : ㅂㄱ제ㅐㅓㅏ지ㅏㅓㄹ이ㅏㄴㅇ리ㅏㅇㄹ니ㅏㅣㅏㄴㄹㅇ나ㅓㅣ;ㄹㅇ니ㅏ나ㅣ;" +
-                    "ㄹㄴㅇ;ㅣㅓㄹㅇ나ㅣㅇㄴ리ㅏㅜㅇㄹ나ㅣㄹㄴ이ㅜㅏㄹㄴ위ㅏㄴ아ㅣㅜㄹㅇ나ㅟㄹㅇ니ㅜㅏㄹㄴ우ㅏ" +
-                    "아ㅜㄴㄹ이ㅏㅜㅇㄴ라ㅣㅜㅇㄴ라ㅣㅜㄴㅇ라ㅟㅇㄴ라ㅣㅜㅇㄹ나ㅟ아ㅟㄴㅇ");
+            result_img.setImageResource(R.mipmap.happy);
+            result_txt.setText(String.valueOf(result)+"개 맞힌 당신 \n"+"훌륭합니다\n");
+
         }else if (result>=7){
-            result_img.setImageResource(R.mipmap.expressionless);
-            result_txt.setText(String.valueOf(result)+"개 맞힌 당신 \n"+"괜찮네요"+
-                    "당신을 위한 귀 건강 음식! : ㅂㄱ제ㅐㅓㅏ지ㅏㅓㄹ이ㅏㄴㅇ리ㅏㅇㄹ니ㅏㅣㅏㄴㄹㅇ나ㅓㅣ;ㄹㅇ니ㅏ나ㅣ;" +
-                    "ㄹㄴㅇ;ㅣㅓㄹㅇ나ㅣㅇㄴ리ㅏㅜㅇㄹ나ㅣㄹㄴ이ㅜㅏㄹㄴ위ㅏㄴ아ㅣㅜㄹㅇ나ㅟㄹㅇ니ㅜㅏㄹㄴ우ㅏ" +
-                    "아ㅜㄴㄹ이ㅏㅜㅇㄴ라ㅣㅜㅇㄴ라ㅣㅜㄴㅇ라ㅟㅇㄴ라ㅣㅜㅇㄹ나ㅟ아ㅟㄴㅇ");
+            result_img.setImageResource(R.mipmap.good);
+            result_txt.setText(String.valueOf(result)+"개 맞힌 당신 \n"+"괜찮네요\n");
         }else if (result>=3){
-            result_img.setImageResource(R.mipmap.samsung);
-            result_txt.setText(String.valueOf(result)+"개 맞힌 당신 \n"+"좀 안들려요"+
-                    "당신을 위한 귀 건강 음식! : ㅂㄱ제ㅐㅓㅏ지ㅏㅓㄹ이ㅏㄴㅇ리ㅏㅇㄹ니ㅏㅣㅏㄴㄹㅇ나ㅓㅣ;ㄹㅇ니ㅏ나ㅣ;" +
-                    "ㄹㄴㅇ;ㅣㅓㄹㅇ나ㅣㅇㄴ리ㅏㅜㅇㄹ나ㅣㄹㄴ이ㅜㅏㄹㄴ위ㅏㄴ아ㅣㅜㄹㅇ나ㅟㄹㅇ니ㅜㅏㄹㄴ우ㅏ" +
-                    "아ㅜㄴㄹ이ㅏㅜㅇㄴ라ㅣㅜㅇㄴ라ㅣㅜㄴㅇ라ㅟㅇㄴ라ㅣㅜㅇㄹ나ㅟ아ㅟㄴㅇ");
-        }else if (result>=1){
-            result_img.setImageResource(R.mipmap.sad);
-            result_txt.setText(String.valueOf(result)+"개 맞힌 당신 \n"+"귀건강이 심각해요"+
-                    "당신을 위한 귀 건강 음식! : ㅂㄱ제ㅐㅓㅏ지ㅏㅓㄹ이ㅏㄴㅇ리ㅏㅇㄹ니ㅏㅣㅏㄴㄹㅇ나ㅓㅣ;ㄹㅇ니ㅏ나ㅣ;" +
-                    "ㄹㄴㅇ;ㅣㅓㄹㅇ나ㅣㅇㄴ리ㅏㅜㅇㄹ나ㅣㄹㄴ이ㅜㅏㄹㄴ위ㅏㄴ아ㅣㅜㄹㅇ나ㅟㄹㅇ니ㅜㅏㄹㄴ우ㅏ" +
-                    "아ㅜㄴㄹ이ㅏㅜㅇㄴ라ㅣㅜㅇㄴ라ㅣㅜㄴㅇ라ㅟㅇㄴ라ㅣㅜㅇㄹ나ㅟ아ㅟㄴㅇ");
+            result_img.setImageResource(R.mipmap.soso);
+            result_txt.setText(String.valueOf(result)+"개 맞힌 당신 \n"+"좀 안들려요\n");
+        }else if (result>=0){
+            result_img.setImageResource(R.mipmap.soso);
+            result_txt.setText(String.valueOf(result)+"개 맞힌 당신 \n"+"귀건강이 심각해요\n");
         }
+
+
 
         //홈으로 가기
         goHomeBtn.setOnClickListener(new View.OnClickListener() {
