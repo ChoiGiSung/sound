@@ -28,14 +28,40 @@
             android:textSize="30dp"
             android:layout_gravity="center"
             android:textColor="@color/colorPrimary"
-            android:text="눈에 좋은 음식\n"/>
+            android:text="귀에 좋은 음식\n"/>
         <TextView
             android:id="@+id/food"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:textSize="20dp"
-            android:text="눈에 좋은 음식으로는 비타민A가 풍부한 당근, 베리류, 시금치, 생선 ,계란, 결명자 차등이 있다.\n"/>
+            android:text="눈에 좋은 음식으로는 \n브로콜리, 시금치 등 녹황색 채소,\n
+            호두, 밤, 잣, 땅콩 등의 견과류\n 여름철 대표 과채류, 수박과 참외, \n돼지고기와 감자 등이 있다.\n"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:text="귀에 좋은 지압법\n"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/jioap"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/jioap2"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/goHome"

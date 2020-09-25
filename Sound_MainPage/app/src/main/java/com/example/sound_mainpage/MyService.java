@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +38,9 @@ public class MyService extends Service {
 
 
 
+    //블루투스연결 필터
+    private  static IntentFilter BlueFilter=new IntentFilter(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
+    //이어플러그 필터
     private  static IntentFilter intentFilter=new IntentFilter(Intent.ACTION_HEADSET_PLUG);
     private  static BroadcastReceiver broadcastReceiver=null;
 
@@ -58,26 +62,33 @@ public class MyService extends Service {
         }catch (Exception e){
             e.printStackTrace();
         }
-        Log.i("Test온크리에디읕","서비스의 oncreate");
 
         broadcastReceiver= new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
+                Log.i("Test온크리에디읕","서비스의 리시버");
+                //블루투스 연결 엑션
+                final String action=intent.getAction();
+                //이어폰 연결 flag //연결은 false 비연결은 true
                 boolean isEarphoneOn=(intent.getIntExtra("state",0)>0)?true:false;
-                Log.i("Test온크리에디읕","서비스의 oncreate");
-                if(isEarphoneOn){
+
+
+                //블루투스의 상태
+                final int state=intent.getIntExtra(BluetoothAdapter.EXTRA_CONNECTION_STATE,BluetoothAdapter.ERROR);
+
+
+                if(isEarphoneOn ||state==BluetoothAdapter.STATE_CONNECTED){
                     Log.e("이어폰log","Earphone is plugged");
                     Toast.makeText(getApplicationContext(),"연결",Toast.LENGTH_SHORT).show();
 
                      startTime =SystemClock.elapsedRealtime();
                     startTime_s =new SimpleDateFormat("ddHHmm").format(new Date());
                     // 연결시작 분
-
-                }else if (!isEarphoneOn && startTime != 0){
+                    Log.e("이어폰log",isEarphoneOn+"");                                                    //블루투스는 상태이름 해석하듯이
+                }else if ((isEarphoneOn==false||state==BluetoothAdapter.STATE_DISCONNECTED)&& startTime != 0 ){    //이어폰을 꽃을때는 true로 되서 if문에 걸리고 뺄때는 뺀상태인 false여야하고 실행시작시간이 0이아니여야한다
                     Log.e("이어폰log","Earphone is unplugged");
                     Toast.makeText(getApplicationContext(),"연결 해제",Toast.LENGTH_SHORT).show();
-
+                    Log.e("이어폰log",isEarphoneOn+"");
                     //연결 끊은 시각
                     EndTime =SystemClock.elapsedRealtime();
                    EndTime_s =new SimpleDateFormat("ddHHmm").format(new Date()); //날짜계산을 위한거
@@ -99,6 +110,7 @@ public class MyService extends Service {
         };
 
         registerReceiver(broadcastReceiver,intentFilter);
+        registerReceiver(broadcastReceiver,BlueFilter);
         //전까지 헤드폰 연결 비연결
 
     }

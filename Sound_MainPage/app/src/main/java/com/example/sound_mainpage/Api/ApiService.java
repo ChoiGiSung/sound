@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public  class ApiService  extends AsyncTask<String,Void, DataDto> {
 
-    private static  String url="http://14.55.237.125:8080";
+    private static  String url="http://119.197.253.70:8080";
     private static MyApi myApi;
     private static DataDto dataDto=null;
 
