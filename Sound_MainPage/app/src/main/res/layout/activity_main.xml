@@ -10,7 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#C3AD9F">
         <ImageButton
 
             android:id="@+id/menu_top"
@@ -18,7 +19,7 @@
             android:layout_height="40dp"
             android:layout_margin="9dp"
             android:adjustViewBounds="true"
-            android:background="#ffff"
+            android:background="#C3AD9F"
             android:scaleType="fitCenter"
             android:src="@drawable/menu"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +43,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,7 +56,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
             <ImageView
                 android:id="@+id/topOne"
@@ -62,6 +65,7 @@
                 android:layout_height="wrap_content"
 
                 android:src="@drawable/graph"
+                android:background="@drawable/back"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.127"
@@ -74,6 +78,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/volue_control"
+                android:background="@drawable/back"
+                android:elevation="60dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.835"
@@ -87,12 +93,14 @@
                 android:layout_height="wrap_content"
 
                 android:src="@drawable/ear_test"
+                android:background="@drawable/back"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.127"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.217" />
+                app:layout_constraintVertical_bias="0.217"
+                />
 
             <ImageView
                 android:id="@+id/BottomThree"
@@ -100,6 +108,7 @@
                 android:layout_height="wrap_content"
 
                 android:src="@drawable/noise"
+                android:background="@drawable/back"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.835"
@@ -118,7 +127,8 @@
                 app:layout_constraintHorizontal_bias="0.127"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.875" />
+                app:layout_constraintVertical_bias="0.875"
+                android:background="@drawable/back"/>
 
             <ImageView
                 android:id="@+id/BottomTwo"
@@ -130,9 +140,20 @@
                 app:layout_constraintHorizontal_bias="0.835"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.875" />
+                app:layout_constraintVertical_bias="0.875"
+                android:background="@drawable/back"
+                android:elevation="99dp"/>
 
-
+            <ImageView
+                android:layout_width="129dp"
+                android:layout_height="125dp"
+                android:src="@drawable/Dhead"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.468"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
