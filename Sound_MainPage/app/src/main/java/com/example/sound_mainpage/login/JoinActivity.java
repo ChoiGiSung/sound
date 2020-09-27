@@ -14,7 +14,7 @@ import com.example.sound_mainpage.Api.ApiDto.DataDto;
 import com.example.sound_mainpage.R;
 
 public class JoinActivity extends AppCompatActivity {
-    EditText joinID,joinPWD;
+    EditText joinID,joinPWD,joinPWD_check;
     Button btnJoin;
 
     @Override
@@ -29,6 +29,7 @@ public class JoinActivity extends AppCompatActivity {
     private void init(){
         joinID=findViewById(R.id.join_id);
         joinPWD=findViewById(R.id.join_pwd);
+        joinPWD_check=findViewById(R.id.joinPWD_check);
         btnJoin=findViewById(R.id.btn_join);
     }
 
@@ -37,8 +38,15 @@ public class JoinActivity extends AppCompatActivity {
         public void onClick(View v) {
             String joinId = joinID.getText().toString();
             String joinPwd = joinPWD.getText().toString();
+            String PWD_check=joinPWD_check.getText().toString();
+
 
             try {
+                if(!joinPwd.equals(PWD_check)){
+                    Toast.makeText(getApplicationContext(),"비밀번호를 다시 확인하세요",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if(joinId !=null && joinPwd!=null){
                     DataDto resultDto = new ApiService().execute("join", joinId, joinPwd).get();
                     String result=resultDto.getJoinresult();
@@ -47,6 +55,7 @@ public class JoinActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"이미 존재하는 아이디",Toast.LENGTH_SHORT).show();
                         joinID.setText("");
                         joinPWD.setText("");
+                        joinPWD_check.setText("");
                     }else if(result.equals("회원가입완료")){
                         joinID.setText("");
                         joinPWD.setText("");

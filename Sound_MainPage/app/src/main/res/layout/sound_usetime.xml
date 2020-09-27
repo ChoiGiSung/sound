@@ -7,6 +7,7 @@
     tools:context=".Sound_useTime"
     android:orientation="vertical"
     android:weightSum="2"
+    android:background="#C3AD9F"
     >
 
 

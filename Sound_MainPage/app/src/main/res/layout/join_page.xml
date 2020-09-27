@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#C3AD9F">
 
     <EditText
         android:id="@+id/join_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
         android:hint="아이디"/>
 
     <EditText
@@ -14,11 +16,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="비밀번호"
+        android:layout_margin="15dp"
         android:layout_below="@id/join_id"/>
+    <EditText
+        android:id="@+id/joinPWD_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호 검사"
+        android:layout_margin="15dp"
+        android:layout_below="@id/join_pwd"/>
     <Button
         android:id="@+id/btn_join"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/join_pwd"
+        android:layout_below="@id/joinPWD_check"
+        android:layout_margin="15dp"
+        android:background="@drawable/roundbtn2"
         android:text="회원 가입"/>
 </RelativeLayout>
