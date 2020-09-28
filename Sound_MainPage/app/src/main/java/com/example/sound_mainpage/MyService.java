@@ -116,8 +116,6 @@ public class MyService extends Service {
     }
 
     private void sendApiupdateDay(){
-        String result=null;
-        // Log.i("제발",userid+Arl.get(0)+Arl.size());
         if (Arl.size() == 7) {
             new ApiService().execute("updateDay", userid, Arl.get(0), Arl.get(1), Arl.get(2),
                     Arl.get(3), Arl.get(4), Arl.get(5), Arl.get(6), "usetime");
