@@ -24,10 +24,11 @@ import java.util.ArrayList;
 
 public class Sound_collection extends AppCompatActivity {
     private ApiService apiService=new ApiService();
+    SuperUser superUser=SuperUser.getSuperUser();
 
     ListView listView;
     MyListAdapter myListAdapter;
-    ArrayList<list_item> list_itemArrayList;
+    public static ArrayList<list_item> list_itemArrayList;
     Button btn_makelist;
     String push="";//db에 넣을 값
 
@@ -52,6 +53,8 @@ public class Sound_collection extends AppCompatActivity {
 
         SuperUser superUser=SuperUser.getSuperUser();
         Log.i("수퍼유조 컬렉션",superUser.getUser_id());
+
+
 
 
         init();
@@ -96,7 +99,7 @@ public class Sound_collection extends AppCompatActivity {
                         //리스트에 추가
                         list_itemArrayList.add(new list_item(edit_list_btbname,edit_list_seek));
 
-                       String push= insertDB();//아이템이 추가되면 string에 넣기
+                        push= insertDB();//아이템이 추가되면 string에 넣기
 
                         //일단 확인버튼이 눌리면 db에 값 올리기
                         //sendSetingDB();
@@ -109,13 +112,6 @@ public class Sound_collection extends AppCompatActivity {
     }
 
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        insertDB();
-//        sendSetingApi();
-//        //sendSetingDB();
-//    }
 
     @Override
     protected void onStop() {
@@ -135,25 +131,14 @@ public class Sound_collection extends AppCompatActivity {
         return push;
     }
 
-    //db에 설정 보내기
-//    public void sendSetingDB(){
-//        Intent intent= getIntent();
-//        String userid=intent.getStringExtra("userid");
-//
-//        try{
-//
-//            String result = new CustomTask().execute(userid,push,"seting","").get();
-//            result=result.trim();
-//            //Toast.makeText(Sound_collection.this,result,Toast.LENGTH_SHORT).show();
-//            Log.i("디비로",result);
-//
-//        }catch (Exception e){e.printStackTrace(); }
-//    }
 
-    //db에 api보내기
+
+    //db에 api보내기 수퍼유저에도 등록
     public void sendSetingApi(){
+
         Intent intent= getIntent();
         String userid=intent.getStringExtra("userid");
+        superUser.setUser_setting(push);
         try{
 
             new ApiService().execute("updateSeting",userid,push).get();
@@ -185,35 +170,5 @@ public class Sound_collection extends AppCompatActivity {
         }
     }
 
-//    private void returnDB(){
-//        Intent intent= getIntent();
-//        String userid=intent.getStringExtra("userid");
-//        //db로 보내기
-//        String result=null;
-//        try {
-//            result = new CustomTask().execute(userid,"getseting","","","").get();
-//           // Log.i("갔냐dgetsetin?","ㅇ");
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        result=result.trim();
-//
-//        if(!result.equals("0")){
-//            String [] result_split =result.split("/"); //db값을 하나의 문자열로 받아서 자른다
-//        try{
-//            for(String a: result_split){
-//                String[] result2= a.split(",");
-//                    list_itemArrayList.add(new list_item(result2[0],Integer.parseInt(result2[1])));
-//            }
-//        }catch (Exception e){
-//
-//        }
-//        }
-//
-//
-//      //  Log.i("왔다 성공",result);
-//       // Toast.makeText(getApplication(),result,Toast.LENGTH_SHORT).show();
-//    }
 }
 

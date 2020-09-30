@@ -6,7 +6,7 @@ public class DataDto {
 
     private List<UserDto> data;
 
-
+    private String joinresult;
 
     public List<UserDto> getData() {
         return data;
@@ -24,7 +24,6 @@ public class DataDto {
         this.joinresult = joinresult;
     }
 
-    private String joinresult;
 
 
     //이너 클래스로 정의

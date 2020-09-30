@@ -22,7 +22,7 @@ import com.example.sound_mainpage.SoundCollection.Sound_collection;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    ImageView topOne,topTwo,TopThree;
+    ImageView topOne,topTwo,TopThree,BottomThree;
     ImageButton menu_top;
     ArrayList<String> Arl=null;
     @Override
@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         menu_top=findViewById(R.id.menu_top);
         topOne=findViewById(R.id.topOne);
         topTwo=findViewById(R.id.topTwo);
+
+
         topOne.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -78,6 +80,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent1 = new Intent(getApplicationContext(), sound_choice.class);
+                startActivity(intent1);
+                return false;
+            }
+        });
+        BottomThree=findViewById(R.id.BottomThree);
+        BottomThree.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent1=new Intent(getApplicationContext(),AroundSoundCheck.class);
                 startActivity(intent1);
                 return false;
             }

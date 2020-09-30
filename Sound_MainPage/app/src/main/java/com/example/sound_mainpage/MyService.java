@@ -3,6 +3,7 @@ package com.example.sound_mainpage;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
@@ -10,10 +11,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -23,6 +26,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.sound_mainpage.Api.ApiDto.DataDto;
 import com.example.sound_mainpage.Api.ApiService;
+import com.example.sound_mainpage.SoundCollection.Sound_collection;
+import com.example.sound_mainpage.SoundCollection.list_item;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,8 +39,18 @@ public class MyService extends Service {
     long startTime,EndTime;
     String startTime_s,EndTime_s=null;
     ArrayList<String> Arl =new ArrayList<>();
-    String userid=null;
+    //유저이름 받아오기
+    SuperUser superUser=SuperUser.getSuperUser();
 
+    String userid=superUser.getUser_id();
+
+    //실험==============================
+    //알림창 소리관련
+    AudioManager audio;
+
+    //배열
+    private ArrayList<list_item> list_itemArrayList=new ArrayList<>();
+    //실험==============================
 
 
     //블루투스연결 필터
@@ -45,27 +60,113 @@ public class MyService extends Service {
     private  static BroadcastReceiver broadcastReceiver=null;
 
 
+    //실험===========================================
+    private  static IntentFilter intentFilter0=new IntentFilter("action0");
+    private  static IntentFilter intentFilter1=new IntentFilter("action1");
+    private  static IntentFilter intentFilter2=new IntentFilter("action2");
+
+
+    //최대 볼륨과 현재 볼륨 지정
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private  void volumSet(){
+        audio= (AudioManager) getApplicationContext().getSystemService(AUDIO_SERVICE);// 매니저들은 get으로 가져옴
+
+    }
+
+    private void setArray(){
+        list_itemArrayList.clear();
+        SuperUser superUser=SuperUser.getSuperUser();
+        String result = superUser.getUser_setting();
+        Log.i("수퍼값",result+""+superUser.getUser_setting());
+        if (!result.equals("0")) {
+            String[] result_split = result.split("/"); //db값을 하나의 문자열로 받아서 자른다
+            int i=0;
+            for (String a : result_split) {
+                String[] result2 = a.split(",");
+                list_itemArrayList.add(new list_item(result2[0], Integer.parseInt(result2[1])));
+                Log.i("링크값",i+"::"+list_itemArrayList.get(i).getBtn_name()+":"+list_itemArrayList.get(i).getSeek_bar());
+                i++;
+            }
+        }
+    }
+    //실험===========================================
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
+    //실험===========================================
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    //실험===========================================
     @Override
     public void onCreate() {
 
         //서비스에서 가장 먼저 호출됨 (최초 한번만)
         super.onCreate();
 
-        Log.i("Test온크리에디읕","서비스의 oncreate");
+        Log.i("Test온크리에디읕",userid);
         try{
             returnApi(); //onStartCommand가 먼저 실행되기 때문에 예외처리해줌
         }catch (Exception e){
             e.printStackTrace();
         }
 
+        //실험==============================
+        volumSet();
+        setArray();
+        //실험==============================
+
         broadcastReceiver= new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+
+
+               // 실험===============================
+
+                try{
+                    if(intent.getAction().equals("action0")){
+                        Toast.makeText(getApplicationContext(), "notification Button Clicked", Toast.LENGTH_LONG).show();
+                        int seek_bar =list_itemArrayList.get(0).getSeek_bar();
+                        String btn_name = list_itemArrayList.get(0).getBtn_name();
+                        Log.i("링크값",seek_bar+btn_name);
+                        audio.setStreamVolume(AudioManager.STREAM_MUSIC,
+                                seek_bar,0);
+                        setArray();
+                        startMyOwnForeground();
+                    }else if(intent.getAction().equals("action1")){
+                        Toast.makeText(getApplicationContext(), "notification Button Clicked1", Toast.LENGTH_LONG).show();
+                        int seek_bar =list_itemArrayList.get(1).getSeek_bar();
+                        String btn_name = list_itemArrayList.get(1).getBtn_name();
+                        Log.i("링크값",seek_bar+btn_name);
+                        audio.setStreamVolume(AudioManager.STREAM_MUSIC,
+                                seek_bar,0);
+                        setArray();
+                        startMyOwnForeground();
+                    }else if(intent.getAction().equals("action2")){
+                        Toast.makeText(getApplicationContext(), "notification Button Clicked2", Toast.LENGTH_LONG).show();
+                        int seek_bar =list_itemArrayList.get(2).getSeek_bar();
+                        String btn_name = list_itemArrayList.get(2).getBtn_name();
+                        Log.i("링크값",seek_bar+btn_name);
+                        audio.setStreamVolume(AudioManager.STREAM_MUSIC,
+                                seek_bar,0);
+                        setArray();
+                        startMyOwnForeground();
+                    }
+                    registerReceiver(broadcastReceiver,intentFilter0);
+                    registerReceiver(broadcastReceiver,intentFilter1);
+                    registerReceiver(broadcastReceiver,intentFilter2);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+
+                //실험===============================
+
+
+
+
+
+
                 Log.i("Test온크리에디읕","서비스의 리시버");
                 //블루투스 연결 엑션
                 final String action=intent.getAction();
@@ -123,6 +224,7 @@ public class MyService extends Service {
         }
 
 
+
         //백그라운드에서 동작하기 위해  startForeground(2, notification);을 썻었는데
         //오레오 버전 이후 부터는 채널 값을 만들어서 줘야 백그라운드에서 실행이 가능하다
         //그래서 밑에 채널을 만들어주는 함수를 작성
@@ -137,13 +239,97 @@ public class MyService extends Service {
         assert manager != null;
         manager.createNotificationChannel(chan);
 
+        //채널에서 사용하기 위한 PendingIntent ,(addAction에서 사용함)
+        Intent intent=new Intent(this,Sound_collection.class);
+        intent.putExtra("userid",userid);
+        PendingIntent pendingIntent=PendingIntent.getActivity(this,
+                0,
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+        //알림바에 나오는 모습
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         Notification notification = notificationBuilder.setOngoing(true)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("App is running in background")
+                .setSmallIcon(R.drawable.icondonkey)
+                .setContentTitle("당신과 나의 귀건강")
                 .setPriority(NotificationManager.IMPORTANCE_MIN)
                 .setCategory(Notification.CATEGORY_SERVICE)
+                .addAction(R.drawable.ic_launcher_foreground,"사용자 버튼 리스트",pendingIntent)
+                .setAutoCancel(true)
                 .build();
+
+        Log.i("등록","1");
+
+        //실험======================================================
+
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        RemoteViews remoteViews=new RemoteViews(getPackageName(),R.layout.reciver_sample);
+
+        try {
+            Intent intent0=new Intent("action0");
+            Intent intent1=new Intent("action1");
+            Intent intent2=new Intent("action2");
+
+            PendingIntent snoo0=PendingIntent.getBroadcast(this,
+                    0,
+                    intent0,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent snoo1=PendingIntent.getBroadcast(this,
+                    0,
+                    intent1,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent snoo2=PendingIntent.getBroadcast(this,
+                    0,
+                    intent2,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            //뷰 바꿔치기
+
+            if (list_itemArrayList.size()>0){
+                remoteViews.setOnClickPendingIntent(R.id.btn_smaple0,snoo0);
+                remoteViews.setTextViewText(R.id.btn_smaple0,list_itemArrayList.get(0).getBtn_name());
+
+            }
+            else {
+                remoteViews.setTextViewText(R.id.btn_smaple0,"설정해주세요!");
+                remoteViews.setTextViewText(R.id.btn_smaple1,"설정해주세요!");
+                remoteViews.setTextViewText(R.id.btn_smaple2,"설정해주세요!");
+
+            }
+            if (list_itemArrayList.size()>1){
+                remoteViews.setOnClickPendingIntent(R.id.btn_smaple1,snoo1);
+                remoteViews.setTextViewText(R.id.btn_smaple1,list_itemArrayList.get(1).getBtn_name());
+            }else {
+                remoteViews.setTextViewText(R.id.btn_smaple1,"설정해주세요!");
+                remoteViews.setTextViewText(R.id.btn_smaple2,"설정해주세요!");
+
+            }
+
+            if (list_itemArrayList.size()>2){
+                remoteViews.setOnClickPendingIntent(R.id.btn_smaple2,snoo2);
+                remoteViews.setTextViewText(R.id.btn_smaple2,list_itemArrayList.get(2).getBtn_name());
+            }else {
+                Log.i("설정실","해주세요");
+            }
+
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+
+            notification.contentView=remoteViews;
+            nm.notify(1,notification);
+
+        }
+
+
+
+
+
+
+
+        //===========================================================
         startForeground(2, notification);
     }
 
@@ -285,6 +471,8 @@ public class MyService extends Service {
         }
 
     }
+
+
 
 
 }

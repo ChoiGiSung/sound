@@ -12,6 +12,13 @@
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!--마이크 관련-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+
     <!--http이용을 위한 usesCleartextTraffic 설정-->
     <application
         android:usesCleartextTraffic="true"
@@ -36,6 +43,7 @@
         <activity android:name=".SoundTest.ResultActivity"/>
         <activity android:name=".SoundChoice.sound_choice"/>
         <activity android:name=".SoundTest.SoundTest"/>
+        <activity android:name=".AroundSoundCheck"/>
 
         <service android:name=".MyService"/>
         <activity android:name=".Sound_useTime"/>

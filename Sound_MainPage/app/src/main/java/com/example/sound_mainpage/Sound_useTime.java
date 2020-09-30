@@ -89,6 +89,8 @@ public class Sound_useTime extends AppCompatActivity {
 
     }
 
+
+    //평균 구하기
     public String Average(ArrayList<String> arl){
         int sum=0;
         try{

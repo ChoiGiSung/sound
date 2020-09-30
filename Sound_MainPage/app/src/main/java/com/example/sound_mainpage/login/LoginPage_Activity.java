@@ -73,9 +73,14 @@ public class LoginPage_Activity extends AppCompatActivity {
                             Intent intent = new Intent(LoginPage_Activity.this, MainActivity.class);
                             intent.putExtra("userid",loginid);
 
+
                             SuperUser superUser=SuperUser.getSuperUser();
                             superUser.setUser_id(loginid);
+                            superUser.setUser_setting(findUser.getData().get(0).getUser_seting());
                             Log.i("수퍼유조",superUser.getUser_id());
+                            Log.i("수퍼유조",superUser.getUser_setting());
+
+
                             save(); //로그인 정보 저장
                             startActivity(intent);
                             finish();
