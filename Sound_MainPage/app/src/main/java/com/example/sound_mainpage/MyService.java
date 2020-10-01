@@ -64,6 +64,7 @@ public class MyService extends Service {
     private  static IntentFilter intentFilter0=new IntentFilter("action0");
     private  static IntentFilter intentFilter1=new IntentFilter("action1");
     private  static IntentFilter intentFilter2=new IntentFilter("action2");
+    private  static IntentFilter intentFilter3=new IntentFilter("action3");
 
 
     //최대 볼륨과 현재 볼륨 지정
@@ -73,21 +74,27 @@ public class MyService extends Service {
 
     }
 
+    //arl 재배치
     private void setArray(){
         list_itemArrayList.clear();
         SuperUser superUser=SuperUser.getSuperUser();
         String result = superUser.getUser_setting();
         Log.i("수퍼값",result+""+superUser.getUser_setting());
-        if (!result.equals("0")) {
-            String[] result_split = result.split("/"); //db값을 하나의 문자열로 받아서 자른다
-            int i=0;
-            for (String a : result_split) {
-                String[] result2 = a.split(",");
-                list_itemArrayList.add(new list_item(result2[0], Integer.parseInt(result2[1])));
-                Log.i("링크값",i+"::"+list_itemArrayList.get(i).getBtn_name()+":"+list_itemArrayList.get(i).getSeek_bar());
-                i++;
+        try {
+            if (!result.equals("0")) {
+                String[] result_split = result.split("/"); //db값을 하나의 문자열로 받아서 자른다
+                int i=0;
+                for (String a : result_split) {
+                    String[] result2 = a.split(",");
+                    list_itemArrayList.add(new list_item(result2[0], Integer.parseInt(result2[1])));
+                    Log.i("링크값",i+"::"+list_itemArrayList.get(i).getBtn_name()+":"+list_itemArrayList.get(i).getSeek_bar());
+                    i++;
+                }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
     //실험===========================================
     @Nullable
@@ -124,6 +131,12 @@ public class MyService extends Service {
                // 실험===============================
 
                 try{
+                    if (intent.getAction().equals("action3")){
+                        //새로고침 누르면 arl업데이트하고 다시한버 알림창을 만들기
+                        setArray();
+                        startMyOwnForeground();
+                    }
+
                     if(intent.getAction().equals("action0")){
                         Toast.makeText(getApplicationContext(), "notification Button Clicked", Toast.LENGTH_LONG).show();
                         int seek_bar =list_itemArrayList.get(0).getSeek_bar();
@@ -131,8 +144,6 @@ public class MyService extends Service {
                         Log.i("링크값",seek_bar+btn_name);
                         audio.setStreamVolume(AudioManager.STREAM_MUSIC,
                                 seek_bar,0);
-                        setArray();
-                        startMyOwnForeground();
                     }else if(intent.getAction().equals("action1")){
                         Toast.makeText(getApplicationContext(), "notification Button Clicked1", Toast.LENGTH_LONG).show();
                         int seek_bar =list_itemArrayList.get(1).getSeek_bar();
@@ -140,8 +151,6 @@ public class MyService extends Service {
                         Log.i("링크값",seek_bar+btn_name);
                         audio.setStreamVolume(AudioManager.STREAM_MUSIC,
                                 seek_bar,0);
-                        setArray();
-                        startMyOwnForeground();
                     }else if(intent.getAction().equals("action2")){
                         Toast.makeText(getApplicationContext(), "notification Button Clicked2", Toast.LENGTH_LONG).show();
                         int seek_bar =list_itemArrayList.get(2).getSeek_bar();
@@ -149,14 +158,18 @@ public class MyService extends Service {
                         Log.i("링크값",seek_bar+btn_name);
                         audio.setStreamVolume(AudioManager.STREAM_MUSIC,
                                 seek_bar,0);
-                        setArray();
-                        startMyOwnForeground();
+
                     }
+                    //필터 등록
                     registerReceiver(broadcastReceiver,intentFilter0);
                     registerReceiver(broadcastReceiver,intentFilter1);
                     registerReceiver(broadcastReceiver,intentFilter2);
+                    registerReceiver(broadcastReceiver,intentFilter3);
                 }catch (Exception e){
                     e.printStackTrace();
+                }finally {
+                    setArray();
+                    startMyOwnForeground();
                 }
 
 
@@ -247,7 +260,6 @@ public class MyService extends Service {
                 intent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
 
-
         //알림바에 나오는 모습
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         Notification notification = notificationBuilder.setOngoing(true)
@@ -270,6 +282,7 @@ public class MyService extends Service {
             Intent intent0=new Intent("action0");
             Intent intent1=new Intent("action1");
             Intent intent2=new Intent("action2");
+            Intent intent3=new Intent("action3");
 
             PendingIntent snoo0=PendingIntent.getBroadcast(this,
                     0,
@@ -283,36 +296,42 @@ public class MyService extends Service {
                     0,
                     intent2,
                     PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent snoo3=PendingIntent.getBroadcast(this,
+                    0,
+                    intent3,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
             //뷰 바꿔치기
 
-            if (list_itemArrayList.size()>0){
-                remoteViews.setOnClickPendingIntent(R.id.btn_smaple0,snoo0);
-                remoteViews.setTextViewText(R.id.btn_smaple0,list_itemArrayList.get(0).getBtn_name());
+            remoteViews.setOnClickPendingIntent(R.id.btn_smaple0,snoo0);
+            remoteViews.setOnClickPendingIntent(R.id.btn_smaple1,snoo1);
+            remoteViews.setOnClickPendingIntent(R.id.btn_smaple2,snoo2);
 
-            }
-            else {
+            if (list_itemArrayList.size()==0){
+
                 remoteViews.setTextViewText(R.id.btn_smaple0,"설정해주세요!");
                 remoteViews.setTextViewText(R.id.btn_smaple1,"설정해주세요!");
                 remoteViews.setTextViewText(R.id.btn_smaple2,"설정해주세요!");
-
             }
-            if (list_itemArrayList.size()>1){
-                remoteViews.setOnClickPendingIntent(R.id.btn_smaple1,snoo1);
-                remoteViews.setTextViewText(R.id.btn_smaple1,list_itemArrayList.get(1).getBtn_name());
-            }else {
+            else  if (list_itemArrayList.size()==1){
+                remoteViews.setTextViewText(R.id.btn_smaple0,list_itemArrayList.get(0).getBtn_name());
                 remoteViews.setTextViewText(R.id.btn_smaple1,"설정해주세요!");
                 remoteViews.setTextViewText(R.id.btn_smaple2,"설정해주세요!");
-
             }
+           else  if (list_itemArrayList.size()==2){
+                remoteViews.setTextViewText(R.id.btn_smaple0,list_itemArrayList.get(0).getBtn_name());
+                remoteViews.setTextViewText(R.id.btn_smaple1,list_itemArrayList.get(1).getBtn_name());
 
-            if (list_itemArrayList.size()>2){
-                remoteViews.setOnClickPendingIntent(R.id.btn_smaple2,snoo2);
+                remoteViews.setTextViewText(R.id.btn_smaple2,"설정해주세요!");
+
+            }else  if (list_itemArrayList.size()>=3){
+                remoteViews.setTextViewText(R.id.btn_smaple0,list_itemArrayList.get(0).getBtn_name());
+                remoteViews.setTextViewText(R.id.btn_smaple1,list_itemArrayList.get(1).getBtn_name());
                 remoteViews.setTextViewText(R.id.btn_smaple2,list_itemArrayList.get(2).getBtn_name());
-            }else {
-                Log.i("설정실","해주세요");
+
             }
 
-
+            //새로고침
+            remoteViews.setOnClickPendingIntent(R.id.btn_smaple3,snoo3);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -322,9 +341,6 @@ public class MyService extends Service {
             nm.notify(1,notification);
 
         }
-
-
-
 
 
 
