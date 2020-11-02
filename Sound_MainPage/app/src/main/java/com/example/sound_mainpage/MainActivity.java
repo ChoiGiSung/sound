@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,7 +23,7 @@ import com.example.sound_mainpage.SoundCollection.Sound_collection;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    ImageView topOne,topTwo,TopThree,BottomThree;
+    ImageView topOne,topTwo,TopThree,BottomThree,BottomOne;
     ImageButton menu_top;
     ArrayList<String> Arl=null;
     @Override
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         menu_top=findViewById(R.id.menu_top);
         topOne=findViewById(R.id.topOne);
         topTwo=findViewById(R.id.topTwo);
-
+        BottomOne=findViewById(R.id.BottomOne);
+        BottomThree=findViewById(R.id.BottomThree);
 
         topOne.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        BottomThree=findViewById(R.id.BottomThree);
+
         BottomThree.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -93,6 +95,16 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        BottomOne.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent1=new Intent(Intent.ACTION_VIEW, Uri.parse("http://119.197.233.4:8080/allpost"));
+                startActivity(intent1);
+                return false;
+            }
+        });
+
 
         // 위에 메뉴 버튼 클릭 시 드로우 레이아웃 작동
         menu_top.setOnClickListener(new View.OnClickListener() {

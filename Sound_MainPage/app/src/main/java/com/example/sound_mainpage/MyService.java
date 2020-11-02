@@ -215,7 +215,6 @@ public class MyService extends Service {
                             Log.i("어레이",a);
                         }
 
-                    //sendMsgToActivity(); //엑티비티로 메시지 보내기
                     sendApiupdateDay();
 
                     startTime=0;//이래야 평소에는 endtime을 저장하지 않는다

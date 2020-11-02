@@ -24,7 +24,7 @@
         android:usesCleartextTraffic="true"
 
         android:allowBackup="true"
-        android:icon="@mipmap/dongkey_round"
+        android:icon="@drawable/icondonkey"
         android:label="당나귀"
         android:roundIcon="@drawable/icondonkey"
         android:supportsRtl="true"
